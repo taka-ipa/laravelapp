@@ -17,10 +17,10 @@ class IngredientsTableSeeder extends Seeder
         $ingredient_names = ['Salt', 'Sugar', 'Flour', 'Eggs', 'Milk', 'Butter', 'Oil', 'Vanilla extract', 'Baking powder', 'Cocoa powder'];
 
         foreach ($recipes as $recipe) {
-            for ($i = 0; $i < rand(2, 5); $i++) { // Each recipe will have 2 to 5 ingredients
+            for ($i = 0; $i < rand(2, 5); $i++) { // 2 から 5 の間のランダムな数を生成し、その数だけループを回します。
                 DB::table('ingredients')->insert([
                     'recipe_id' => $recipe,
-                    'name' => $ingredient_names[array_rand($ingredient_names)],
+                    'name' => $ingredient_names[array_rand($ingredient_names)],// $ingredient_namesの中からランダムに選んだインデックス要素を取り出す。['salt']ならsaltが取り出せる。
                     'quantity' => rand(1, 500) . 'g', // Random quantity between 1 and 500 grams
                     'created_at' => now(),
                     'updated_at' => now(),
