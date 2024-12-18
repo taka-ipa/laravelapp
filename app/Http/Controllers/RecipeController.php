@@ -34,6 +34,8 @@ class RecipeController extends Controller
             ->join('users', 'users.id', '=', 'recipes.user_id')
             ->orderBy('recipes.created_at', 'desc')
             ->get();
+
+        return view('recipes.index', compact('recipes'));
     }
 
     /**
