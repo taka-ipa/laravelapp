@@ -63,7 +63,7 @@ class RecipeController extends Controller
         // dd($resipes);
 
         $categories = Category::all();
-        return view('recipes.index', compact('recipes', 'categories'));
+        return view('recipes.index', compact('recipes', 'categories', 'filters'));
     }
 
     /**
