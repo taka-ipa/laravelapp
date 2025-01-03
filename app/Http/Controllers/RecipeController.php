@@ -59,7 +59,7 @@ class RecipeController extends Controller
                 $query->where('recipes.title', 'like', '%'.$filters['title'].'%');
             }
         }
-        $recipes = $query->get();
+        $recipes = $query->paginate(5);
         // dd($resipes);
 
         $categories = Category::all();
