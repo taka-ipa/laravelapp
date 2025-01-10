@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
+use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class RecipeController extends Controller
 {
@@ -85,11 +87,19 @@ class RecipeController extends Controller
     {
         $posts = $request->all();
         // dd($posts);
+        $image = $request->file('image');
+        // s3に画像をアップロード
+        $path = Storage::disk('s3')->putFile('recipe', $image, 'public');
+        // dd($path);
+        // s3のURLを取得
+        $url = Storage::disk('s3')->url($path);
+        // DBにはURLを保存
         Recipe::insert([
             'id' => Str::uuid(),
             'title' => $posts['title'],
             'description' => $posts['description'],
             'category_id' => $posts['category'],
+            'image' => $url,
             'user_id' => Auth::id(),
             'created_at' => now(),
             'updated_at' => now(),
