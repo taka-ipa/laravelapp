@@ -12,6 +12,7 @@ use App\Models\Recipe;
 use App\Models\Step;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Models\Review;
 
 class RecipeController extends Controller
 {
@@ -140,6 +141,8 @@ class RecipeController extends Controller
         \Log::error($th->getMessage());
         throw $th;
     }
+        flash()->success('レシピを投稿しました!');
+        
         return redirect()->route('recipe.show', ['id' => $uuid]);
     }
 

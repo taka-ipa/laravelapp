@@ -1,16 +1,16 @@
 <x-app-layout>
   <x-slot name="script">
-      <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script>
-      <script src="/js/recipe/create.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script>
+    <script src="/js/recipe/create.js"></script>
   </x-slot>
   <form action="{{ route('recipe.store') }}" method="POST" class="w-10/12 p-4 mx-auto bg-white rounded" enctype="multipart/form-data">
     @csrf
     <!-- クロスサイトリクエストフォージェリ -->
     {{ Breadcrumbs::render('create') }}
-    <div class="grid grid-cols-2 rounded border border-gray-500 mt-4">
+    <div class="grid grid-cols-2 rounded border border-gray-500 my-4">
       <div class="col-span-1">
-        <img class="object-cover w-full aspect-video" src="/images/recipe-dummy.png" alt="recipe-image">
-        <input type="file" name="image" class="border border-gray-300 p-2 mb-4 w-full rounded">
+        <img id="preview" class="object-cover w-full aspect-video" src="/images/recipe-dummy.png" alt="recipe-image">
+        <input type="file" id="image" name="image" class="border border-gray-300 p-2 mb-4 w-full rounded">
       </div>
       <div class="col-span-1 p-4">
         <input type="text" name="title" placeholder="レシピ名" class="border border-gray-300 p-2 mb-4 w-full rounded">
@@ -37,10 +37,10 @@
         </div>
         <button type="button" id="ingredient-add" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">材料を追加する</button>
         <!-- submit -->
-        <div class="flex justify-end">
-          <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">レシピを投稿する</button>
-        </div>
       </div>
+    </div>
+    <div class="flex justify-center">
+      <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">レシピを投稿する</button>
     </div>
     <!-- underline  -->
     <hr class="my-4">
