@@ -106,12 +106,27 @@ class RecipeController extends Controller
             'created_at' => now(),
             'updated_at' => now()
         ]);
+        // $posts['ingredients'] =$posts['ingredients'][0]['name']
+        // $posts['ingredients'] =$posts['ingredients'][0]['quantity']
+        $ingredients = [];
+        foreach($posts['ingredients'] as $key => $ingredient){
+            $ingredients[$key] = [
+                'recipe_id' => $uuid,
+                'name' => $ingredient['name'],
+                'quantity' => $ingredient['quantity'],
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        }
+        Ingredient::insert($ingredients);
         $steps = [];
         foreach($posts['steps'] as $key => $step){
             $steps[$key] = [
                 'recipe_id' => $uuid,
                 'step_number' => $key + 1,
-                'description' => $step
+                'description' => $step,
+                'created_at' => now(),
+                'updated_at' => now()
             ];
         }
         STEP::insert($steps);
