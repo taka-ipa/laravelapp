@@ -10,6 +10,8 @@ use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Step;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class RecipeController extends Controller
 {
@@ -96,6 +98,8 @@ class RecipeController extends Controller
         // s3のURLを取得
         $url = Storage::disk('s3')->url($path);
         // DBにはURLを保存
+        try {
+            DB::beginTransaction();
         Recipe::insert([
             'id' => $uuid,
             'title' => $posts['title'],
@@ -130,8 +134,13 @@ class RecipeController extends Controller
             ];
         }
         STEP::insert($steps);
-        // dd($steps);
-
+        DB::commit();
+    } catch (\Exception $th) {
+        DB::rollBack();
+        \Log::error($th->getMessage());
+        throw $th;
+    }
+        return redirect()->route('recipe.show', ['id' => $uuid]);
     }
 
     /**
