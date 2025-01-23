@@ -159,12 +159,19 @@ class RecipeController extends Controller
         // レシピの閲覧数をインクリメント
         $recipe_recode = Recipe::find($id);
         $recipe_recode->increment('views');
+
+        // レシピの投稿者がログインユーザーかどうかを判定
+        $is_my_recipe = false;
+        if(Auth::check() && $recipe->user->id === Auth::id()) { //ログインしているかつ、レシピの投稿者IDとログインユーザーIDが一致する場合
+            $is_my_recipe = true;
+        }
+
         // $ingredients = Ingredient::where('recipe_id', $recipe['id'])->get();
         // $steps = Step::where('recipe_id', $recipe['id'])->get();
         // リレーションで材料とステップを取得
         // dd($recipe);
 
-        return view('recipes.show', compact('recipe'));
+        return view('recipes.show', compact('recipe', 'is_my_recipe'));
     }
 
 
@@ -173,7 +180,12 @@ class RecipeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $recipe = Recipe::with(['ingredients', 'steps', 'reviews.user', 'user'])
+            ->where('recipes.id', $id)
+            ->first();
+        $categories = Category::all();
+        
+        return view('recipes.edit', compact('recipe', 'categories'));
     }
 
     /**
