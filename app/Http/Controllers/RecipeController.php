@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Http\Requests\RecipeCreateRequest;
+use App\Http\Requests\RecipeUpdateRequest;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
@@ -191,10 +192,9 @@ class RecipeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RecipeUpdateRequest $request, string $id)
     {
         $posts = $request->all();
-        // dd($posts);
         // 画像の分岐
         $update_array = [
             'title' => $posts['title'],
