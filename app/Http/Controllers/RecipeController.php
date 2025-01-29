@@ -184,6 +184,9 @@ class RecipeController extends Controller
         $recipe = Recipe::with(['ingredients', 'steps', 'reviews.user', 'user'])
             ->where('recipes.id', $id)
             ->first();
+        if( !Auth::check() || (Auth::id() !== $recipe['user_id']) ) {
+            abort(403);
+        }
         $categories = Category::all();
         
         return view('recipes.edit', compact('recipe', 'categories'));
