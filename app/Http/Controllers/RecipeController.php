@@ -202,7 +202,9 @@ class RecipeController extends Controller
         $update_array = [
             'title' => $posts['title'],
             'description' => $posts['description'],
-            'category_id' => $posts['category_id']
+            'category_id' => $posts['category_id'],
+            'created_at' => now(),
+            'updated_at' => now()
         ];
         if( $request->hasFile('image') ) {
             $image = $request->file('image');
@@ -223,7 +225,9 @@ class RecipeController extends Controller
                 $ingredients[$key] = [
                     'recipe_id' => $id,
                     'name' => $ingredient['name'],
-                    'quantity' => $ingredient['quantity']
+                    'quantity' => $ingredient['quantity'],
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ];
             }
             Ingredient::insert($ingredients);
@@ -232,7 +236,9 @@ class RecipeController extends Controller
                 $steps[$key] = [
                     'recipe_id' => $id,
                     'step_number' => $key + 1,
-                    'description' => $step
+                    'description' => $step,
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ];
             }
             STEP::insert($steps);
@@ -252,6 +258,9 @@ class RecipeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Recipe::where('id', $id)->delete();
+
+        flash()->warning('レシピを削除しました！');
+        return redirect()->route('home');
     }
 }
